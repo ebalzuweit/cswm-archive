@@ -175,6 +175,11 @@ namespace cswm
             {
                 return false;
             }
+            if (window.Size.Area() <= 8192) // 128 * 64
+            {
+                return false;
+            }
+
             if (!REQUIRED_STYLES.All(s => window.HasStyle(s)))
             {
                 return false;

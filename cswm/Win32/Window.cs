@@ -10,6 +10,7 @@ namespace cswm.Win32
         public long Styles { get; private set; }
         public int ProcessId { get => _processId; set => _processId = value; }
         public int ThreadId { get; private set; }
+        public RECT Size { get; private set; }
 
         public Window(IntPtr hWnd)
         {
@@ -21,6 +22,10 @@ namespace cswm.Win32
         {
             Styles = User32.GetWindowLong(hWnd, User32.WindowLongIndexFlags.GWL_STYLE);
             ThreadId = User32.GetWindowThreadProcessId(hWnd, out _processId);
+            if (User32.GetWindowRect(hWnd, out var rect))
+            {
+                Size = rect;
+            }
         }
 
         public bool HasStyle(long style)

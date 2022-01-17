@@ -6,6 +6,7 @@ namespace cswm.Win32
     {
         public static int Width(this RECT rect) => rect.right - rect.left;
         public static int Height(this RECT rect) => rect.bottom - rect.top;
+        public static int Area(this RECT rect) => rect.Width() * rect.Height();
 
         public static RECT Inset(this RECT rect, int l, int t, int r, int b)
         {

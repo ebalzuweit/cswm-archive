@@ -4,10 +4,12 @@ namespace cswm.Win32
 {
     public class Window
     {
+        private int _processId;
+
         public IntPtr hWnd { get; init; }
-        //public string Title { get; private set; }
         public long Styles { get; private set; }
-        //public RECT Size { get; private set; }
+        public int ProcessId { get => _processId; set => _processId = value; }
+        public int ThreadId { get; private set; }
 
         public Window(IntPtr hWnd)
         {
@@ -17,13 +19,8 @@ namespace cswm.Win32
 
         public void RefreshCachedProperties()
         {
-            //Title = User32Helper.GetWindowTitle(hWnd);
-            
             Styles = User32.GetWindowLong(hWnd, User32.WindowLongIndexFlags.GWL_STYLE);
-            //if (User32.GetWindowRect(hWnd, out var rect))
-            //{
-            //    Size = rect;
-            //}
+            ThreadId = User32.GetWindowThreadProcessId(hWnd, out _processId);
         }
 
         public bool HasStyle(long style)
@@ -59,7 +56,6 @@ namespace cswm.Win32
 
         public override string ToString()
         {
-            //return $"{$"[{hWnd}]",-12}: {Title:0,20}";
             return hWnd.ToString();
         }
 

@@ -9,12 +9,9 @@ namespace cswm.Win32
     /// </summary>
     public class WindowDetails
     {
-        private int processId;
 
         public Window Window { get; init; }
         public RECT Size { get; init; }
-        public int ProcessId => processId;
-        public int ThreadId { get; init; }
         public Process Process { get; init; }
         public bool OnCurrentVirtualDesktop { get; init; }
 
@@ -25,9 +22,22 @@ namespace cswm.Win32
             {
                 Size = rect;
             }
-            ThreadId = User32.GetWindowThreadProcessId(window.hWnd, out processId);
-            Process = Process.GetProcessById((int)ProcessId);
+            Process = Process.GetProcessById(Window.ProcessId);
             OnCurrentVirtualDesktop = VirtualDesktopHelper.IsCurrentVirtualDesktop(window.hWnd);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            var wd = obj as WindowDetails;
+            if (wd == null)
+                return false;
+
+            return wd.Window.Equals(this);
+        }
+
+        public override int GetHashCode()
+        {
+            return Window.GetHashCode();
         }
     }
 }

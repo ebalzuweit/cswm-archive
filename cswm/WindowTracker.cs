@@ -152,6 +152,8 @@ namespace cswm
             }
         }
 
+        static readonly int[] SYSTEM_PIDS = new int[] { 0, 4 };
+
         static readonly uint[] REQUIRED_STYLES = new uint[]
         {
             (uint) User32.WindowStyles.WS_OVERLAPPEDWINDOW,
@@ -169,6 +171,10 @@ namespace cswm
 
         private bool TrackWindow(Window window)
         {
+            if (SYSTEM_PIDS.Any(pid => window.ProcessId == pid))
+            {
+                return false;
+            }
             if (!REQUIRED_STYLES.All(s => window.HasStyle(s)))
             {
                 return false;

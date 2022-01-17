@@ -14,8 +14,7 @@ namespace cswm
             User32.WindowsEventHookType.EVENT_OBJECT_CREATE,
             User32.WindowsEventHookType.EVENT_OBJECT_SHOW,
             User32.WindowsEventHookType.EVENT_OBJECT_FOCUS,
-            //(User32.WindowsEventHookType) 0x8018, // EVENT_OBJECT_UNCLOAKED
-            //(User32.WindowsEventHookType) 0x7FFFFF30, // Discord raises this event when restoring from the tray, not listed as an event constant
+            (User32.WindowsEventHookType) 0x8018, // EVENT_OBJECT_UNCLOAKED
         };
 
         public Action OnTrackedWindowsChanged;
@@ -139,10 +138,24 @@ namespace cswm
                     var window = new Window(winEvent.hWnd);
                     var details = new WindowDetails(window);
 
+
+
                     if (details.Process.ProcessName.ToLower().Contains("discord"))
                     {
                         switch (winEvent.eventType)
                         {
+                            case User32.WindowsEventHookType.EVENT_OBJECT_PARENTCHANGE:
+                                break;
+                            case User32.WindowsEventHookType.EVENT_OBJECT_STATECHANGE:
+                                break;
+                            case User32.WindowsEventHookType.EVENT_OBJECT_REORDER:
+                                break;
+                            case User32.WindowsEventHookType.EVENT_SYSTEM_ALERT:
+                                break;
+                            case User32.WindowsEventHookType.EVENT_OBJECT_NAMECHANGE:
+                                break;
+                            case (User32.WindowsEventHookType)2147483440:
+                                break;
                             default:
                                 break;
                         }

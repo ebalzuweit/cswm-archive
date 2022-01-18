@@ -13,11 +13,11 @@ namespace cswm
         public WinEventListener EventListener => eventListener;
         public WindowTracker Tracker => tracker;
 
-        public WindowManager(IWindowManagementStrategy strategy)
+        public WindowManager(WinEventListener eventListener, IWindowManagementStrategy strategy)
         {
             this.strategy = strategy;
 
-            eventListener = new WinEventListener();
+            this.eventListener = eventListener;
             tracker = new WindowTracker(eventListener);
             tracker.OnTrackedWindowChanged += OnTrackedWindowMoveEnd;
             tracker.OnTrackedWindowsChanged += LayoutWindows;

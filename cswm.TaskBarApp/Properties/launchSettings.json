@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "cswm.TaskBarApp": {
+      "commandName": "Project"
+    },
+    "cswm.TaskBarApp --trace-enabled": {
+      "commandName": "Project",
+      "commandLineArgs": "--trace-enabled"
+    }
+  }
+}

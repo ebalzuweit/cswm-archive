@@ -11,17 +11,12 @@ namespace cswm.Win32
     {
 
         public Window Window { get; init; }
-        public RECT Size { get; init; }
         public Process Process { get; init; }
         public bool OnCurrentVirtualDesktop { get; init; }
 
         public WindowDetails(Window window)
         {
             Window = window;
-            if (User32.GetWindowRect(window.hWnd, out var rect))
-            {
-                Size = rect;
-            }
             Process = Process.GetProcessById(Window.ProcessId);
             OnCurrentVirtualDesktop = VirtualDesktopHelper.IsCurrentVirtualDesktop(window.hWnd);
         }

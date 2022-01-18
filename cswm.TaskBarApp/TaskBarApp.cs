@@ -5,9 +5,11 @@ namespace cswm.TaskBarApp
     public class TaskBarApp : ApplicationContext
     {
         private NotifyIcon notifyIcon = new NotifyIcon();
+        private WinEventListener eventListener;
         private WindowManager windowManager;
+        private WinEventTraceFile traceFile;
 
-        public TaskBarApp()
+        public TaskBarApp(bool traceEnabled = false)
         {            
             notifyIcon.ContextMenuStrip = BuildNotificationContextMenu();
             notifyIcon.Text = Properties.Resources.TrayIconTooltip;
@@ -15,13 +17,19 @@ namespace cswm.TaskBarApp
             notifyIcon.Click += NotifyIcon_OnClick;
             notifyIcon.Visible = true;
 
+            eventListener = new WinEventListener();
             var strategy = new BSPTilingStrategy
             {
                 MonitorPadding = Properties.Settings.Default.DisplayPadding,
                 WindowMargin = Properties.Settings.Default.WindowMargin,
                 AspectRatio = Properties.Settings.Default.AspectRatio,
             };
-            windowManager = new WindowManager(strategy);
+            windowManager = new WindowManager(eventListener, strategy);
+
+            if (traceEnabled)
+            {
+                traceFile = new WinEventTraceFile(eventListener);
+            }
         }
 
         private ContextMenuStrip BuildNotificationContextMenu()
@@ -42,6 +50,8 @@ namespace cswm.TaskBarApp
         private void Exit_OnClick(object? sender, EventArgs e)
         {
             windowManager?.Dispose();
+            traceFile?.Dispose();
+            eventListener?.Dispose();
 
             notifyIcon.Visible = false;
             Application.Exit();

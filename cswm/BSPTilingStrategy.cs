@@ -47,7 +47,7 @@ namespace cswm
             var splitHorizontal = aspectRatio >= AspectRatio;
 
             var split = SplitRect(area, splitHorizontal);
-            var ordered = windowDetails.OrderBy(d => Math.Abs(WindowOrdering(d, split.Item1, split.Item2)));
+            var ordered = windowDetails.OrderBy(d => Math.Abs(WindowOrdering(d.Window, split.Item1, split.Item2)));
 
             var maxWindows = ordered.Count() / 2;
             if (ordered.Count() % 2 == 1)
@@ -55,9 +55,9 @@ namespace cswm
 
             var windows1 = new List<WindowDetails>();
             var windows2 = new List<WindowDetails>();
-            foreach (var window in ordered)
+            foreach (WindowDetails window in ordered)
             {
-                var pref = WindowOrdering(window, split.Item1, split.Item2);
+                var pref = WindowOrdering(window.Window, split.Item1, split.Item2);
                 if (pref <= 0)
                 {
                     if (windows1.Count() < maxWindows)
@@ -113,13 +113,13 @@ namespace cswm
             }
         }
 
-        private float WindowOrdering(WindowDetails details, RECT a, RECT b)
+        private float WindowOrdering(Window window, RECT a, RECT b)
         {
             int overlap_a = 0, overlap_b = 0;
-            if (details.Size.Overlaps(a))
-                overlap_a = details.Size.GetOverlapArea(a);
-            if (details.Size.Overlaps(b))
-                overlap_b = details.Size.GetOverlapArea(b);
+            if (window.Size.Overlaps(a))
+                overlap_a = window.Size.GetOverlapArea(a);
+            if (window.Size.Overlaps(b))
+                overlap_b = window.Size.GetOverlapArea(b);
 
             return overlap_b - overlap_a;
         }

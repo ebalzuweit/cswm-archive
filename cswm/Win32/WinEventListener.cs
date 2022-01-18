@@ -21,7 +21,7 @@ namespace cswm.Win32
                 eventMin, 
                 eventMax, 
                 IntPtr.Zero, 
-                winEventProc, 
+                winEventProc,
                 0, 
                 0, 
                 User32.WindowsEventHookFlags.WINEVENT_OUTOFCONTEXT | User32.WindowsEventHookFlags.WINEVENT_SKIPOWNPROCESS
@@ -30,12 +30,15 @@ namespace cswm.Win32
 
         public void Dispose()
         {
-            eventHookHandle.Dispose();
+            eventHookHandle?.Dispose();
             eventHookHandle = null;
         }
 
         private void WinEventRaised(IntPtr hWinEventHook, User32.WindowsEventHookType eventType, IntPtr hWnd, int idObject, int idChild, int dwEventThread, uint dwmsEventTime)
         {
+            if (hWnd == IntPtr.Zero)
+                return;
+
             var winEvent = new WinEvent
             {
                 hWinEventHook = hWinEventHook,

@@ -24,14 +24,14 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Publish
-      run: dotnet publish cswm.TaskBarApp/cswm.TaskBarApp.csproj -c Release -o app
+      run: dotnet publish cswm.TaskBarApp/cswm.TaskBarApp.csproj -c Release -o cswm
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.3.1
       with:
         # Artifact name
-        name: app # optional, default is artifact
+        name: cswm # optional, default is artifact
         # A file, directory or wildcard pattern that describes what to upload
-        path: app/**
+        path: cswm/**
         # The desired behavior if no files are found using the provided path.
         if-no-files-found: error # optional, default is warn
         # Duration after which artifact will expire in days. 0 means using default retention.

@@ -4,4 +4,4 @@
 
 _(C# Window Manager)_
 
-### Coming soon.
+cswm has moved to <https://github.com/ebalzuweit/cswm>
